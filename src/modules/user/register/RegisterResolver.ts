@@ -4,6 +4,8 @@ import * as bcrypt from "bcryptjs";
 import { User } from "../../../entity/User";
 import { RegisterInput } from "./RegisterInput";
 import { isAuthenticated } from "../../middlewares/isAuthenticated";
+import { sendEmail } from "../../../utils/mailer";
+import { createConfirmationUrl } from "../../../utils/createConfirmationUrl";
 
 @Resolver()
 export class RegisterResolver {
@@ -23,6 +25,8 @@ export class RegisterResolver {
       ...data,
       password,
     }).save();
+
+    await sendEmail(user.email, await createConfirmationUrl(user.id));
 
     return user;
   }
