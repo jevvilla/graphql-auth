@@ -37,4 +37,7 @@ export class User extends BaseEntity {
   name(@Root() user: User): string {
     return `${user.firstName} ${user.lastName}`;
   }
+
+  @Column("boolean", { default: false })
+  confirmed!: boolean;
 }
