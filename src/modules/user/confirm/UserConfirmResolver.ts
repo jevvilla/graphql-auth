@@ -2,6 +2,7 @@ import { Resolver, Arg, Mutation } from "type-graphql";
 
 import { User } from "../../../entity/User";
 import { redis } from "../../../redis";
+import { CONFIRMUSER_PREFIX } from "../../constants";
 
 @Resolver()
 export class UserConfirmationResolver {
@@ -9,7 +10,7 @@ export class UserConfirmationResolver {
   async confirmUser(
     @Arg("token", () => String) token: string
   ): Promise<boolean> {
-    const userId = await redis.get(token);
+    const userId = await redis.get(CONFIRMUSER_PREFIX + token);
 
     if (!userId) {
       return false;
