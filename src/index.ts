@@ -7,9 +7,6 @@ import express from "express";
 import connectRedis from "connect-redis";
 import cors from "cors";
 
-import { RegisterResolver } from "./modules/user/register/RegisterResolver";
-import { LoginResolver } from "./modules/user/login/LoginResolver";
-import { UserConfirmationResolver } from "./modules/user/confirm/UserConfirmResolver";
 import { redis } from "./redis";
 
 const main = async () => {
@@ -17,7 +14,7 @@ const main = async () => {
 
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [RegisterResolver, LoginResolver, UserConfirmationResolver],
+      resolvers: [__dirname + "/modules/**/*.ts"],
     }),
     context: ({ req }) => ({ req }),
   });
