@@ -16,7 +16,7 @@ const main = async () => {
     schema: await buildSchema({
       resolvers: [__dirname + "/modules/**/*.ts"],
     }),
-    context: ({ req }) => ({ req }),
+    context: ({ req, res }) => ({ req, res }),
   });
 
   const app = express();
