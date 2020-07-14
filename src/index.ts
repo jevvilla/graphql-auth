@@ -47,7 +47,13 @@ const main = async () => {
     })
   );
 
-  server.applyMiddleware({ app, path: "/graphql" });
+  server.applyMiddleware({
+    app,
+    cors: {
+      origin: "http://localhost:3000",
+      credentials: true,
+    },
+  });
   app.listen(4040, () =>
     console.log(`server running in: http://localhost:4040${server.graphqlPath}`)
   );
