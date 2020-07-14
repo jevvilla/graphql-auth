@@ -1,24 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+
+import { Login } from "./screens/Login";
+
+const LOGIN = gql`
+  {
+    login(password: "1235", email: "dario@email.com") {
+      id
+      firstName
+      lastName
+      name
+      createdAt
+    }
+  }
+`;
 
 function App() {
+  const { loading, error, data } = useQuery(LOGIN);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error :(</p>;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {/* <Login /> */}
+      <span>{data?.login.id}</span>
+      <span>{data?.login.firstName}</span>
+      <span>{data?.login.lastName}</span>
+      <span>{data?.login.name}</span>
+      <span>{data?.login.createdAt}</span>
     </div>
   );
 }
